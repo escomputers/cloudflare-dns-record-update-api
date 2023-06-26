@@ -12,5 +12,6 @@ This script requires:
 ### Usage
 Run this command by passing your Cloudflare DNS A record to be updated:
 ```bash
+python -m pip install -r requirements.txt
 python update.py <cloudflarednsArecord>
 ```

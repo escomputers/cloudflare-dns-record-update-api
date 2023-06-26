@@ -2,7 +2,10 @@ import requests
 import os
 import sys
 import re
+import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # DNS name to keep updated
 dns_pattern = re.compile(r'^(?!http[s]?://)(?:[\w.-]+)\.[a-zA-Z]{2,7}(?:/[\w.-]*)*/?$')
@@ -34,9 +37,9 @@ def update_ip(url, ip, dns_name):
     }
     r = requests.put(url, headers=headers, json=data)
     if r.status_code == 200:
-        print('Cloudflare DNS record updated successfully')
+        logging.info('Cloudflare DNS record updated successfully')
     else:
-        print('Error during DNS record update process, check Cloudflare settings')
+        logging.error('Error during DNS record update process, check Cloudflare settings')
 
 
 def get_ip(url):
@@ -59,7 +62,7 @@ def make_requests(cloudflare_url, dns_name):
             ip = get_ip(urls[2])
             update_ip(cloudflare_url, ip, dns_name)
             if ip is None:
-                print('3/3 endpoints failed, check urls and internet connection')
+                logging.error('3/3 endpoints failed, check urls and internet connection')
 
 
 def is_valid_url(dns_name, dns_pattern):
@@ -72,11 +75,11 @@ def main():
     try:
         dns_name = sys.argv[1]
         if not is_valid_url(dns_name, dns_pattern):
-            print("Invalid URL provided.")
+            logging.error("Invalid URL provided.")
         else:
             make_requests(cloudflare_url, dns_name)
     except IndexError:
-        print("Please provide a URL as an argument.")
+        logging.info("Please provide a URL as an argument.")
 
 
 if __name__ == '__main__':

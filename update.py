@@ -54,16 +54,20 @@ def get_ip(url):
 def make_requests(cloudflare_url, dns_name):
     # try each endpoint sequentially
     ip = get_ip(urls[0])
-    update_ip(cloudflare_url, ip, dns_name)
-    if ip is None:
-        ip = get_ip(urls[1])
+    if ip is not None:
         update_ip(cloudflare_url, ip, dns_name)
-        if ip is None:
-            ip = get_ip(urls[2])
+    else: # try second url
+        response_text = get_ip(urls[1])
+        if response_text is not None:
+            ip_match = re.search(r'ip=([\d.]+)', response_text)
+            ip = ip_match.group(1)
             update_ip(cloudflare_url, ip, dns_name)
-            if ip is None:
+        else: # try last url
+            ip = get_ip(urls[2])
+            if ip is not None:
+                update_ip(cloudflare_url, ip, dns_name)
+            else:
                 logging.error('3/3 endpoints failed, check urls and internet connection')
-
 
 def is_valid_url(dns_name, dns_pattern):
     if re.match(dns_pattern, dns_name):

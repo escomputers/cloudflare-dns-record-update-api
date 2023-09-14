@@ -6,7 +6,7 @@ This script requires:
 * an existing Cloudflare DNS A record
 * 3 environment variables:
   * CLOUDFLARE_ZONEID (the zone ID of DNS record to be updated)
-  * CLOUDFLARE_ACCOUNTID (your Cloudflare account ID)
+  * CLOUDFLARE_DNSRECORD_ID (ID of DNS record to update)
   * CLOUDFLARE_TOKEN (Authorization Bearer Token needed to access API)
 
 ### Usage

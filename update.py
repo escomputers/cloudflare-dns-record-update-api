@@ -19,8 +19,8 @@ urls = [
 # cloudflare settings
 CLOUDFLARE_TOKEN = os.getenv('CLOUDFLARE_TOKEN')
 CLOUDFLARE_ZONEID = os.getenv('CLOUDFLARE_ZONEID')
-CLOUDFLARE_ACCOUNTID = os.getenv('CLOUDFLARE_ACCOUNTID')
-cloudflare_url = 'https://api.cloudflare.com/client/v4/zones/' + CLOUDFLARE_ZONEID + '/dns_records/' + CLOUDFLARE_ACCOUNTID
+CLOUDFLARE_DNSRECORD_ID = os.getenv('CLOUDFLARE_DNSRECORD_ID')
+cloudflare_url = 'https://api.cloudflare.com/client/v4/zones/' + CLOUDFLARE_ZONEID + '/dns_records/' + CLOUDFLARE_DNSRECORD_ID
 
 
 def update_ip(url, ip, dns_name):

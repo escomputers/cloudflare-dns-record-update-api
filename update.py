@@ -3,6 +3,7 @@ import os
 import sys
 import re
 import logging
+import threading
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -75,7 +76,8 @@ def is_valid_url(dns_name, dns_pattern):
     else:
         return False
 
-def main():
+def loop_check():
+    threading.Timer(900.0, loop_check).start()
     try:
         dns_name = sys.argv[1]
         if not is_valid_url(dns_name, dns_pattern):
@@ -86,5 +88,4 @@ def main():
         logging.info("Please provide a URL as an argument.")
 
 
-if __name__ == '__main__':
-    main()
+loop_check()

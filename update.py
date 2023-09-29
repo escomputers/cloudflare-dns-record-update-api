@@ -77,7 +77,7 @@ def is_valid_url(dns_name, dns_pattern):
         return False
 
 def loop_check():
-    threading.Timer(900.0, loop_check).start()
+    threading.Timer(600.0, loop_check).start()
     try:
         dns_name = sys.argv[1]
         if not is_valid_url(dns_name, dns_pattern):

@@ -4,6 +4,8 @@ import sys
 import re
 import logging
 import threading
+from datetime import datetime
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -37,10 +39,11 @@ def update_ip(url, ip, dns_name):
         'comment': 'Updated by Python DNS update script'
     }
     r = requests.put(url, headers=headers, json=data)
+    current_time = datetime.now().strftime('%Y-%m-%d - %H:%M:%S')
     if r.status_code == 200:
-        logging.info('Cloudflare DNS record updated successfully')
+        logging.info(f'[{current_time}] Cloudflare DNS record updated successfully')
     else:
-        logging.error('Error during DNS record update process, check Cloudflare settings')
+        logging.error(f'[{current_time}] Error during DNS record update process, check Cloudflare settings')
 
 
 def get_ip(url):
@@ -68,7 +71,8 @@ def make_requests(cloudflare_url, dns_name):
             if ip is not None:
                 update_ip(cloudflare_url, ip, dns_name)
             else:
-                logging.error('3/3 endpoints failed, check urls and internet connection')
+                current_time = datetime.now().strftime('%Y-%m-%d - %H:%M:%S')
+                logging.error(f'[{current_time}] 3/3 endpoints failed, check urls and internet connection')
 
 def is_valid_url(dns_name, dns_pattern):
     if re.match(dns_pattern, dns_name):
